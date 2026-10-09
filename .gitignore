@@ -27,3 +27,6 @@ Server/lord/src/lord.cfg
 # Archives and local tools
 *.rar
 *.zip
+
+# Out-of-source CMake compile-only experiments
+build/

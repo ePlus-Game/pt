@@ -9,6 +9,11 @@ An **incomplete, unverified** historic C/C++ source snapshot for research into P
 - `Share/` — shared headers and prebuilt libraries
 - `docs/PT_source_analysis.md` — investigation and missing dependencies
 
+## Current build progress
+- One-shot portable source build (legacy Lua + CRC32/miniLZO subset) with CMake, CTest and GitHub Actions; **not** a playable client/server.
+- Combined dependency and asset inventory reports, plus a Windows VC6 multi-project build-attempt script.
+- See [Offline recovery guide](docs/OFFLINE_RECOVERY.md) for the full one-pass workflow.
+
 ## Known blockers
 - Requires old 32-bit Windows/Visual C++ toolchains and dependencies.
 - `Game.dll`, `FSInterface.dll`, full server executables and the `fsonline2` database dump are absent.

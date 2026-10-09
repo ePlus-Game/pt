@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			if( gets( szInput ) && 
+			if( fgets( szInput, sizeof(szInput), stdin ) && 
 				( szInput[0] == 'q' || szInput[0] == 'Q' ) )
 			{
 				pController->Stop( );

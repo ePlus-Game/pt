@@ -8,7 +8,10 @@ import json
 import re
 from pathlib import Path
 
-from tools.audit_legacy_projects import audit
+if __package__:
+    from .audit_legacy_projects import audit
+else:
+    from audit_legacy_projects import audit
 
 LINK_RE = re.compile(r"^# ADD LINK32 (.+)$", re.M)
 LIB_RE = re.compile(r"(?i)(?<![\w.-])([\w.-]+\.lib)(?![\w.-])")

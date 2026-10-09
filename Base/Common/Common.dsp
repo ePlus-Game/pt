@@ -309,99 +309,99 @@ SOURCE=.\PinCrypt.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=..\Header\Common\Buffer.h
+SOURCE=..\..\Share\Header\Common\Buffer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Cipher.h
+SOURCE=..\..\Share\Header\Common\Cipher.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Conc.h
+SOURCE=..\..\Share\Header\Common\Conc.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Configger.h
+SOURCE=..\..\Share\Header\Common\Configger.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\CRC32.h
+SOURCE=..\..\Share\Header\Common\CRC32.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\CriticalSection.h
+SOURCE=..\..\Share\Header\Common\CriticalSection.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\DeviceStream.h
+SOURCE=..\..\Share\Header\Common\DeviceStream.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Event.h
+SOURCE=..\..\Share\Header\Common\Event.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\EventSelect.h
+SOURCE=..\..\Share\Header\Common\EventSelect.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Exception.h
+SOURCE=..\..\Share\Header\Common\Exception.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\ExceptionNew.h
+SOURCE=..\..\Share\Header\Common\ExceptionNew.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\IniFile.h
+SOURCE=..\..\Share\Header\Common\IniFile.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\IOBuffer.h
+SOURCE=..\..\Share\Header\Common\IOBuffer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\IOCompletionPort.h
+SOURCE=..\..\Share\Header\Common\IOCompletionPort.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\KSG_EncodeDecode.h
+SOURCE=..\..\Share\Header\Common\KSG_EncodeDecode.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\KSocketClient2.h
+SOURCE=..\..\Share\Header\Common\KSocketClient2.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Library.h
+SOURCE=..\..\Share\Header\Common\Library.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Macro.h
+SOURCE=..\..\Share\Header\Common\Macro.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\ManualResetEvent.h
+SOURCE=..\..\Share\Header\Common\ManualResetEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Mutex.h
+SOURCE=..\..\Share\Header\Common\Mutex.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\NodeList.h
+SOURCE=..\..\Share\Header\Common\NodeList.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\OpaqueUserData.h
+SOURCE=..\..\Share\Header\Common\OpaqueUserData.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\PackagerEx.h
+SOURCE=..\..\Share\Header\Common\PackagerEx.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Reporter.h
+SOURCE=..\..\Share\Header\Common\Reporter.h
 # End Source File
 # Begin Source File
 
@@ -409,39 +409,39 @@ SOURCE=..\Header\Common\SkillInfomation.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\SkillListDef.h
+SOURCE=..\..\Share\Header\Common\SkillListDef.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\SocketAddress.h
+SOURCE=..\..\Share\Header\Common\SocketAddress.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\SocketClient.h
+SOURCE=..\..\Share\Header\Common\SocketClient.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\SocketServer.h
+SOURCE=..\..\Share\Header\Common\SocketServer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Thread.h
+SOURCE=..\..\Share\Header\Common\Thread.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\tstring.h
+SOURCE=..\..\Share\Header\Common\tstring.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\UsesWinsock.h
+SOURCE=..\..\Share\Header\Common\UsesWinsock.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Utils.h
+SOURCE=..\..\Share\Header\Common\Utils.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\Header\Common\Win32Exception.h
+SOURCE=..\..\Share\Header\Common\Win32Exception.h
 # End Source File
 # End Group
 # End Target

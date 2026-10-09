@@ -34,11 +34,12 @@ The original game source uses MSVC6 Win32/x86 and prebuilt Windows `.lib` depend
 4. Open PowerShell inside the VM and run:
 
 ```powershell
-.	oolsuild-vc6-all.ps1 -DryRun
-.	oolsuild-vc6-all.ps1 -Configuration Release -Msdev "C:Program FilesMicrosoft Visual StudioCommonMSDev98BinMSDEV.EXE"
+.\tools\build-vc6-all.ps1 -DryRun -Configuration Release
+.\tools\build-vc6-all.ps1 -DryRun -Configuration Debug
+.\tools\build-vc6-all.ps1 -Configuration Release -Msdev "C:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\MSDEV.EXE"
 ```
 
-The script attempts all seven entry projects in order: `LuaLib`, `Common`, `Core_lib`, `Engine`, `Represent2`, `Faith`, `lord`. It **continues after failures** and captures per-project build logs and JSON summary under `build/vc6/`. Running the script in this environment has not been tested. It uses MSDEV's historical `/MAKE` interface and does not run built games.
+The script validates project configurations before invoking VC6, then attempts all eight target configurations in order: `LuaLib`, `Common`, `Core_Lib Client`, `Core_Lib Server`, `Engine`, `Represent2`, `Faith`, `lord`. It **continues after build failures** and captures per-target build logs plus a JSON summary under `build/vc6/`. Both the `Release` and `Debug` config names are validated in automated tests and Windows CI dry runs; this does not compile any VC6 code. Running the script in this environment has not been tested. It uses MSDEV's historical `/MAKE` interface and does not run built games.
 
 ## True offline blockers (independent of compiling C)
 

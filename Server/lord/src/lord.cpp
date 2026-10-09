@@ -27,9 +27,13 @@
 int main(int argc, char* argv[])
 {
 	
-	IController*		pController;
+	IController*		pController = 0;
 
-	CreateController( pController );
+	if( INVALID_VALUE == CreateController( pController ) || !pController )
+	{
+		fprintf( stderr, "Unable to create game server controller.\n" );
+		return 1;
+	}
 
 	int nDaemon = 0;
 
@@ -40,7 +44,8 @@ int main(int argc, char* argv[])
 
 	if( INVALID_VALUE == pController->Startup( nDaemon ) )
 	{
-		return 0;
+		fprintf( stderr, "Game server Startup failed.\n" );
+		return 1;
 	}
 
 	char szInput[MAX_INPUT_STRING] = {0};

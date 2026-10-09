@@ -44,7 +44,8 @@ int main(int argc, char* argv[])
 
 	if( INVALID_VALUE == pController->Startup( nDaemon ) )
 	{
-		return 0;
+		fprintf( stderr, "Game server Startup failed.\n" );
+		return 1;
 	}
 
 	char szInput[MAX_INPUT_STRING] = {0};

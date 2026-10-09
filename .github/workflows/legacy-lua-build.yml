@@ -47,7 +47,12 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-      - name: Configure MSVC 2022 Win32 isolated portable subset
+      - name: Preflight original VC6 build matrix (Release and Debug, no MSDEV)
+        shell: pwsh
+        run: |
+          ./tools/build-vc6-all.ps1 -DryRun -Configuration Release
+          ./tools/build-vc6-all.ps1 -DryRun -Configuration Debug
+      - name: Configure MSVC 2026 Win32 isolated portable subset
         shell: pwsh
         run: cmake -S . -B "$env:RUNNER_TEMP\pt-recovery-x86" -G "Visual Studio 18 2026" -A Win32
       - name: Compile Lua and CRC32/miniLZO with MSVC x86

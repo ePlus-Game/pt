@@ -1,0 +1,26 @@
+name: Legacy Lua static build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  compile-lua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify legacy Lua source manifest
+        run: python -m unittest discover -s tests -p 'test_lua_build_sources.py' -v
+      - name: Configure CMake (no game execution)
+        run: cmake -S Base/LuaLib -B "$RUNNER_TEMP/pt-lua" -DCMAKE_BUILD_TYPE=Release
+      - name: Compile static library
+        run: cmake --build "$RUNNER_TEMP/pt-lua" --parallel 2
+      - name: Verify archive was created
+        run: test -s "$RUNNER_TEMP/pt-lua/libpt_legacy_lua.a"

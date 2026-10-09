@@ -255,10 +255,6 @@ SOURCE=.\src\lua.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\luadebug.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\lualib.h
 # End Source File
 # Begin Source File

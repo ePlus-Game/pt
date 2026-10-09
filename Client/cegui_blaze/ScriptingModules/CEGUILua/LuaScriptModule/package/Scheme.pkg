@@ -1,0 +1,10 @@
+/***********************************************************************
+	Scheme
+***********************************************************************/
+class Scheme
+{
+	void loadResources();
+	void unloadResources();
+	bool resourcesLoaded() const;
+	string getName() const;
+};

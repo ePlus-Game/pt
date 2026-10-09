@@ -1,0 +1,2 @@
+# Preserve original legacy file encodings and CRLF verbatim on first import.
+* -text

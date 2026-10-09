@@ -1,0 +1,29 @@
+# Legacy Visual C++ generated files
+*.ncb
+*.pch
+*.idb
+*.pdb
+*.obj
+*.sbr
+*.bsc
+*.ilk
+*.plg
+*.opt
+*.aps
+*.tmp
+*.log
+*.res
+*.exp
+*.tlog
+*.lastbuildstate
+*.ipch
+*.suo
+*.user
+*.VC.db
+*.VC.VC.opendb
+.vs/
+# Host-specific server configuration (use .example)
+Server/lord/src/lord.cfg
+# Archives and local tools
+*.rar
+*.zip

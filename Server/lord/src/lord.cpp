@@ -27,9 +27,13 @@
 int main(int argc, char* argv[])
 {
 	
-	IController*		pController;
+	IController*		pController = 0;
 
-	CreateController( pController );
+	if( INVALID_VALUE == CreateController( pController ) || !pController )
+	{
+		fprintf( stderr, "Unable to create game server controller.\n" );
+		return 1;
+	}
 
 	int nDaemon = 0;
 

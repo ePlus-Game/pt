@@ -9,9 +9,10 @@ Phase 1 was merged in PR #8 (3,605 source files). This branch extends the source
 - 41 `gameserver/` `.luax` files (only if no embedded NUL bytes / suspect credentials)
 - 2 `Sources/` `.inc` files
 - 1 `Docs/` `.tsv` file
+- 1 `Tools/` `.tsv` file
 - 1 `gameserver/settings/npc/player/newplayerbaseattribute.ini`
 
-Total: **103 path-based candidates**, not a promise that all are safe or valid.
+Total: **104 path-based candidates**, not a promise that all are safe or valid.
 
 ## Exclusions and verification
 

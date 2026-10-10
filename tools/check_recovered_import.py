@@ -14,20 +14,24 @@ import re
 import subprocess
 
 PREFIX = 'recovered/PhongThanSource/'
+RUNTIME_PREFIX = 'recovered/Runtime/'
 ALLOWED_SUFFIXES = {
     '.cpp', '.c', '.h', '.hpp', '.inl', '.dsp', '.dsw', '.sln', '.vcproj',
     '.idl', '.odl', '.def', '.rc', '.lua', '.py', '.ps1', '.md', '.txt',
     '.json', '.yml', '.yaml', '.cmake', '.mak', '.bat', '.cmd', '.cs',
     '.xml', '.sh', '.ts', '.tsx', '.jsx', '.js', '.inc', '.luax', '.tsv', '.ini',
+    '.cc', '.cxx', '.hxx', '.vcxproj', '.filters', '.cfg', '.conf', '.properties',
+    '.manifest', '.resx', '.sql', '.htm', '.html', '.css', '.xsd', '.xsl',
+    '.xslt', '.gradle', '.m', '.mm', '.java', '.go', '.rs', '.php', '.asm',
+    '.s', '.nsi', '.iss', '.mk', '.make', '.sample', '.pl',
 }
 BLOCKED_PARTS = {
-    '.git', '.vs', 'debug', 'release', 'output', 'outputmodern',
-    'thirdparty', 'lib', 'bin', 'obj', 'logs',
+    '.git', '.vs', 'debug', 'release', 'bin', 'obj', 'logs',
     'backup', '_backup', 'node_modules', 'win32release', 'win32debug',
     'win32serverrelease', 'win32serverdebug', 'win32clientrelease',
     'win32clientdebug',
 }
-MAX_BYTES = 3 * 1024 * 1024
+MAX_BYTES = 5 * 1024 * 1024
 SUSPICIOUS_NAME = re.compile(
     r'(?:^\.env(?:\.|$)|secret|credential|password|private[_-]?key|'
     r'id_rsa|\.pem$|\.pfx$|\.p12$|\.key$|token)', re.I
@@ -54,35 +58,26 @@ def check_file(root: Path, relative: str) -> list[str]:
         if b'\x00' in code or any(p.search(code) for p in SENSITIVE_CONTENT):
             return ['invalid_policy_content']
         return []
-    if not relative.startswith(PREFIX):
+    if relative.startswith(PREFIX):
+        parts = relative[len(PREFIX):].split('/')
+        runtime = False
+    elif relative.startswith(RUNTIME_PREFIX):
+        parts = relative[len(RUNTIME_PREFIX):].split('/')
+        runtime = True
+        if (len(parts) < 3 or parts[0] not in ('Client', 'Server')
+                or parts[1].casefold() not in ('script', 'settings', 'ui')):
+            return ['outside_approved_runtime_code']
+    else:
         return ['outside_recovered_source']
-    parts = relative[len(PREFIX):].split('/')
     if (not parts or any(not p or p in ('.', '..') for p in parts)
             or '\\' in relative or '\x00' in relative
             or ':' in relative or relative.startswith('/')):
         return ['unsafe_path']
     if any(p.casefold() in BLOCKED_PARTS for p in parts[:-1]):
         return ['blocked_directory']
-    # Keep old build/deploy paths blocked unless these exact approved top-level folders.
-    if any(p.casefold() in {'build', 'deploy'} for p in parts[1:-1]):
-        return ['blocked_nested_build_or_deploy']
-    if parts[0].casefold() in {'build', 'deploy'} and parts[0] not in {'Build', 'Deploy'}:
-        return ['blocked_unapproved_case']
-    # Recovery phase 2: include top-level build/deploy scripts only, never
-    # their generated runtime/config/project-content directories.
-    if parts[0] == 'Build' and (len(parts) != 2 or
-            PurePosixPath(parts[-1]).suffix.lower() not in {
-                '.ps1', '.bat', '.cmd', '.sh', '.py', '.md', '.txt',
-                '.cmake', '.json'}):
-        return ['blocked_build_artifact']
-    if parts[0] == 'Deploy' and (len(parts) != 2 or
-            PurePosixPath(parts[-1]).suffix.lower() not in {
-                '.ps1', '.bat', '.cmd', '.sh', '.py', '.md', '.txt',
-                '.tsv', '.json'}):
-        return ['blocked_deploy_artifact']
-    if PurePosixPath(parts[-1]).suffix.lower() == '.ini' and (
-            '/'.join(parts) != 'gameserver/settings/npc/player/newplayerbaseattribute.ini'):
-        return ['unreviewed_ini_configuration']
+    # Full-source import keeps original text resources from Build, Deploy,
+    # Output, ThirdParty and Client/Server script, settings, UI trees.
+    # Compiled artifacts, old .git history, backups and secrets remain blocked.
     name = parts[-1]
     if SUSPICIOUS_NAME.search(name):
         return ['suspicious_filename']

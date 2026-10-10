@@ -18,11 +18,11 @@ ALLOWED_SUFFIXES = {
     '.cpp', '.c', '.h', '.hpp', '.inl', '.dsp', '.dsw', '.sln', '.vcproj',
     '.idl', '.odl', '.def', '.rc', '.lua', '.py', '.ps1', '.md', '.txt',
     '.json', '.yml', '.yaml', '.cmake', '.mak', '.bat', '.cmd', '.cs',
-    '.xml', '.sh', '.ts', '.tsx', '.jsx', '.js',
+    '.xml', '.sh', '.ts', '.tsx', '.jsx', '.js', '.inc', '.luax', '.tsv', '.ini',
 }
 BLOCKED_PARTS = {
     '.git', '.vs', 'debug', 'release', 'output', 'outputmodern',
-    'thirdparty', 'lib', 'deploy', 'build', 'bin', 'obj', 'logs',
+    'thirdparty', 'lib', 'bin', 'obj', 'logs',
     'backup', '_backup', 'node_modules', 'win32release', 'win32debug',
     'win32serverrelease', 'win32serverdebug', 'win32clientrelease',
     'win32clientdebug',
@@ -44,6 +44,16 @@ SENSITIVE_CONTENT = (
 
 
 def check_file(root: Path, relative: str) -> list[str]:
+    # This exact policy file is reviewed in the same PR as phase-2 imports.
+    # No other non-source paths are permitted by the import gate.
+    if relative == 'tools/check_recovered_import.py':
+        policy = root / relative
+        if not policy.is_file() or policy.stat().st_size > MAX_BYTES:
+            return ['missing_or_oversized_policy']
+        code = policy.read_bytes()
+        if b'\x00' in code or any(p.search(code) for p in SENSITIVE_CONTENT):
+            return ['invalid_policy_content']
+        return []
     if not relative.startswith(PREFIX):
         return ['outside_recovered_source']
     parts = relative[len(PREFIX):].split('/')
@@ -53,6 +63,21 @@ def check_file(root: Path, relative: str) -> list[str]:
         return ['unsafe_path']
     if any(p.casefold() in BLOCKED_PARTS for p in parts[:-1]):
         return ['blocked_directory']
+    # Recovery phase 2: include top-level build/deploy scripts only, never
+    # their generated runtime/config/project-content directories.
+    if parts[0] == 'Build' and (len(parts) != 2 or
+            PurePosixPath(parts[-1]).suffix.lower() not in {
+                '.ps1', '.bat', '.cmd', '.sh', '.py', '.md', '.txt',
+                '.cmake', '.json'}):
+        return ['blocked_build_artifact']
+    if parts[0] == 'Deploy' and (len(parts) != 2 or
+            PurePosixPath(parts[-1]).suffix.lower() not in {
+                '.ps1', '.bat', '.cmd', '.sh', '.py', '.md', '.txt',
+                '.tsv', '.json'}):
+        return ['blocked_deploy_artifact']
+    if PurePosixPath(parts[-1]).suffix.lower() == '.ini' and (
+            '/'.join(parts) != 'gameserver/settings/npc/player/newplayerbaseattribute.ini'):
+        return ['unreviewed_ini_configuration']
     name = parts[-1]
     if SUSPICIOUS_NAME.search(name):
         return ['suspicious_filename']

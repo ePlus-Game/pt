@@ -63,6 +63,11 @@ def check_file(root: Path, relative: str) -> list[str]:
         return ['unsafe_path']
     if any(p.casefold() in BLOCKED_PARTS for p in parts[:-1]):
         return ['blocked_directory']
+    # Keep old build/deploy paths blocked unless these exact approved top-level folders.
+    if any(p.casefold() in {'build', 'deploy'} for p in parts[1:-1]):
+        return ['blocked_nested_build_or_deploy']
+    if parts[0].casefold() in {'build', 'deploy'} and parts[0] not in {'Build', 'Deploy'}:
+        return ['blocked_unapproved_case']
     # Recovery phase 2: include top-level build/deploy scripts only, never
     # their generated runtime/config/project-content directories.
     if parts[0] == 'Build' and (len(parts) != 2 or

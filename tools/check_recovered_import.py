@@ -84,6 +84,13 @@ def check_file(root: Path, relative: str) -> list[str]:
     # Full-source import keeps original text resources from Build, Deploy,
     # Output, ThirdParty and Client/Server script, settings, UI trees.
     # Compiled artifacts, old .git history, backups and secrets remain blocked.
+    # Lowercase build/deploy paths may be generated or unreviewed artifacts.
+    # Preserve the original top-level Build/Deploy directories, not their
+    # case-folded lookalikes.
+    if not runtime and any(p.casefold() in ('build', 'deploy')
+                           and p not in ('Build', 'Deploy')
+                           for p in parts[:-1]):
+        return ['unreviewed_build_or_deploy_directory']
     name = parts[-1]
     if SUSPICIOUS_NAME.search(name):
         return ['suspicious_filename']

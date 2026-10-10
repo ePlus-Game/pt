@@ -46,6 +46,12 @@ SENSITIVE_CONTENT = (
     re.compile(rb'(?i)(?:password|secret|api[_-]?key|access[_-]?token)\s*[:=]\s*[\'\"][^\'\"\r\n]{7,}[\'\"]'),
 )
 
+# Plain-text config secrets are often unquoted (INI style).
+SENSITIVE_CONTENT += (
+    re.compile(rb'(?im)^\\s*(?:password|passwd|pwd|client_secret|api[_-]?key|access[_-]?token|private[_-]?key)\\s*[:=]\\s*[^\\s;#\\r\\n]{3,}'),
+    re.compile(rb'(?i)(?:Password|Pwd)\\s*=\\s*[^;\\r\\n]{4,}'),
+)
+
 
 def check_file(root: Path, relative: str) -> list[str]:
     # This exact policy file is reviewed in the same PR as phase-2 imports.
